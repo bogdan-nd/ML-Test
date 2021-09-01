@@ -1,11 +1,7 @@
 import numpy as np
 
 
-def sigmoid(z):
-    return 1 / (1 + np.exp(-z))
-
-
-class MyLogisticRegression:
+class MyLinearRegression:
     def __init__(self, learning_rate=0.01, max_iterations=100):
         self.learning_rate = learning_rate
         self.max_iterations = max_iterations
@@ -15,8 +11,8 @@ class MyLogisticRegression:
     def cost_function(self, X, y):
         m = X.shape[0]
 
-        h_x = sigmoid(np.dot(X, self.weights) + self.bias)
-        cost_function = (-1 / m) * (y * np.log(h_x) + (1 - y) * np.log(1 - h_x))
+        h_x = np.dot(X, self.weights) + self.bias
+        cost_function = (1 / (2 * m)) * (h_x - y) ** 2
 
         bias_derivative = (1 / m) * (h_x - y)
         theta_derivative = (1 / m) * np.dot(X.T, h_x - y)
@@ -36,9 +32,5 @@ class MyLogisticRegression:
         self.optimize(X_train, y_train)
 
     def predict(self, X):
-        probability = self.predict_proba(X)
-        return [1 if prob >= 0.5 else 0 for prob in probability]
-
-    def predict_proba(self, X):
-        return sigmoid(np.dot(X, self.weights) + self.bias)
+        return np.dot(X, self.weights) + self.bias
 
