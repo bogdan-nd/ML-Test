@@ -3,3 +3,5 @@
 .ipynb_checkpoints
 __pycache__/
 processed.cleveland.data
+insurance.csv
+models/__pycache__
