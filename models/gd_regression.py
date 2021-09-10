@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from collections import OrderedDict
+
 import numpy as np
-from metrics import f1_score
 
 
 class GDRegression(ABC):
@@ -22,16 +22,19 @@ class GDRegression(ABC):
 
         return cost_func
 
-    def fit(self, X_train, y_train, X_val, y_val):
-        def print_metrics():
+    def fit(self, X_train, y_train, X_val=None, y_val=None, metrics=None, report_periodicity=20):
+        def calculate_metrics():
+            print(f"\n{i}/{self.max_iterations}: Loss -> {np.round(cost_function, 3)}", end='')
+
+            if any(v is None for v in (X_val, y_val, metrics)):
+                return
+
             y_train_pred = self.predict(X_train)
-            train_f1 = f1_score(y_train, y_train_pred)
-
             y_val_pred = self.predict(X_val)
-            val_f1 = f1_score(y_val, y_val_pred)
 
-            print(f"{i}/{self.max_iterations}: Loss -> {round(cost_function, 3)}, train F1 -> {round(train_f1, 3)},"
-                  f" val f1 -> {round(val_f1, 3)}")
+            for metric in metrics:
+                print(f", train {metric.__name__} -> {metric(y_train, y_train_pred)}"
+                      f", val {metric.__name__} -> {metric(y_val, y_val_pred)}")
 
         if self.weights is None:
             self.weights = np.zeros(X_train.shape[1])
@@ -42,8 +45,8 @@ class GDRegression(ABC):
             cost_function = self.optimize(X_train, y_train)
             cost_by_iteration[i] = cost_function
 
-            if i % 20 == 0:
-                print_metrics()
+            if i % report_periodicity == 0:
+                calculate_metrics()
 
         return cost_by_iteration
 
