@@ -72,7 +72,7 @@ class GDRegression(ABC):
             y_val_pred = self.predict(X_val)
 
             for metric in metrics:
-                print(f", train {metric.__name__} -> {metric(y_train, y_train_pred)}"
+                print(f"\ntrain {metric.__name__} -> {metric(y_train, y_train_pred)}"
                       f", val {metric.__name__} -> {metric(y_val, y_val_pred)}")
 
         if self.weights is None:
