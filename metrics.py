@@ -1,49 +1,53 @@
 import numpy as np
 
 
-def tp(real_y, predicted_y):
-    is_tp = np.logical_and(real_y == 1, predicted_y == 1)
+def tp(y_true, y_pred):
+    is_tp = np.logical_and(y_true == 1, y_pred == 1)
     return np.sum(is_tp)
 
 
-def fp(real_y, predicted_y):
-    is_fp = np.logical_and(real_y == 0, predicted_y == 1)
+def fp(y_true, y_pred):
+    is_fp = np.logical_and(y_true == 0, y_pred == 1)
     return np.sum(is_fp)
 
 
-def fn(real_y, predicted_y):
-    is_fn = np.logical_and(real_y == 1, predicted_y == 0)
+def fn(y_true, y_pred):
+    is_fn = np.logical_and(y_true == 1, y_pred == 0)
     return np.sum(is_fn)
 
 
-def tn(real_y, predicted_y):
-    is_tn = np.logical_and(real_y == 0, predicted_y == 0)
+def tn(y_true, y_pred):
+    is_tn = np.logical_and(y_true == 0, y_pred == 0)
     return np.sum(is_tn)
 
 
-def precision(real_y, predicted_y):
-    tp_ = tp(real_y, predicted_y)
-    fp_ = fp(real_y, predicted_y)
+def precision(y_true, y_pred):
+    tp_ = tp(y_true, y_pred)
+    fp_ = fp(y_true, y_pred)
 
     return tp_ / (tp_ + fp_)
 
 
-def recall(real_y, predicted_y):
-    tp_ = tp(real_y, predicted_y)
-    fn_ = fn(real_y, predicted_y)
+def recall(y_true, y_pred):
+    tp_ = tp(y_true, y_pred)
+    fn_ = fn(y_true, y_pred)
 
     return tp_ / (tp_ + fn_)
 
 
-def accuracy(real_y, predicted_y):
-    tp_ = tp(real_y, predicted_y)
-    tn_ = tn(real_y, predicted_y)
+def accuracy(y_true, y_pred):
+    tp_ = tp(y_true, y_pred)
+    tn_ = tn(y_true, y_pred)
 
-    return (tp_ + tn_) / len(real_y)
+    return (tp_ + tn_) / len(y_true)
 
 
-def f1_score(real_y, predicted_y):
-    precision_ = precision(real_y, predicted_y)
-    recall_ = recall(real_y, predicted_y)
+def f1_score(y_true, y_pred):
+    precision_ = precision(y_true, y_pred)
+    recall_ = recall(y_true, y_pred)
 
     return 2 * precision_ * recall_ / (precision_ + recall_)
+
+
+def mse(y_true, y_pred):
+    return (1 / len(y_true)) * np.sum((y_true - y_pred) ** 2)
