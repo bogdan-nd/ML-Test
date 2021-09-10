@@ -4,10 +4,17 @@ from models.gd_regression import GDRegression
 
 
 def sigmoid(z):
+    """
+    Calculates sigmoid function
+    """
     return 1 / (1 + np.exp(-z))
 
 
 class MyLogisticRegression(GDRegression):
+    """
+    Logistic Regression Classifier
+    """
+
     def __init__(self, learning_rate=0.01, max_iterations=100):
         super().__init__(learning_rate, max_iterations)
 

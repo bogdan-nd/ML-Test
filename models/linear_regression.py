@@ -4,6 +4,10 @@ from models.gd_regression import GDRegression
 
 
 class MyLinearRegression(GDRegression):
+    """
+    Linear Regression with L2 regularization
+    """
+
     def __init__(self, learning_rate=0.01, max_iterations=100, regularization_term=0.1):
         super().__init__(learning_rate, max_iterations)
         self.regularization_term = regularization_term
